@@ -29,6 +29,12 @@ function placeGolfer(index = 0) {
     if (placeGolfer(index + 1)) return true;
 
     weekMatrix[row][column] = 0;
+
+    if (interactive) {
+      delay(0.3);
+      console.clear();
+      printWeeks(weekMatrix, numOfGolfers, groupSize);
+    }
   }
 
   return false;

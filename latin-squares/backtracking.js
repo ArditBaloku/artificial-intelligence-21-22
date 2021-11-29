@@ -27,6 +27,12 @@ function placeNumber(index) {
     if (placeNumber(index + 1)) return true;
 
     table[row][column] = 0;
+
+    if (interactive) {
+      delay(0.3);
+      console.clear();
+      printTable(table);
+    }
   }
 
   return false;
