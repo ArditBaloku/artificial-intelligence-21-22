@@ -1,45 +1,44 @@
-const parseArguments = require("./cli-parser");
+const { parseArguments, printTable } = require('./utils');
 
 const n = parseArguments();
+const table = new Array(n).fill().map((x) => new Array(n).fill(0));
+const tableDomains = new Array(n)
+  .fill()
+  .map((x) => new Array(n).fill().map((y) => new Array(n).fill(1)));
 
-const table = new Array(n).fill()
-                          .map(x => new Array(n).fill()
-                                                .map(y => ({ value: 0, domain: new Set([...Array(n).keys()].map(x => x + 1)) })))
+if (placeNumber(0)) printTable(table);
 
 function placeNumber(index) {
-  if (index === n * n)
-    return true;
+  if (index === n * n) return true;
 
   const [row, column] = [Math.floor(index / n), index % n];
-  const cell = table[row][column];
 
   for (let i = 1; i <= n; i++) {
-    if (!cell.domain.has(i))
-      continue;
+    if (tableDomains[row][column][i - 1] === 0) continue;
 
-    cell.value = i;
+    table[row][column] = i;
 
     const domainsRemoved = [];
     for (let j = 0; j < n; j++) {
-      if (table[row][j].domain.delete(i))
-        domainsRemoved.push(table[row][j])
+      if (tableDomains[row][j][i - 1] === 1) {
+        tableDomains[row][j][i - 1] = 0;
+        domainsRemoved.push([row, j]);
+      }
 
-      if (table[j][column].domain.delete(i))
-        domainsRemoved.push(table[j][column])
+      if (tableDomains[j][column][i - 1] === 1) {
+        tableDomains[j][column][i - 1] = 0;
+        domainsRemoved.push([j, column]);
+      }
     }
 
-    if (placeNumber(index + 1))
-      return true;
-    
-    for (const cell of domainsRemoved)
-      cell.domain.add(i)
+    if (placeNumber(index + 1)) return true;
 
-    cell.value = 0;
+    for (const [row, column] of domainsRemoved) {
+      tableDomains[row][column][i - 1] = 1;
+    }
+
+    table[row][column] = 0;
   }
 
   return false;
 }
-
-if (placeNumber(0))
-  for (const row of table)
-    console.log(row.map(x => x.value).join(' '))

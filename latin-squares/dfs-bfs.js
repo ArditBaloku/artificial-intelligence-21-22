@@ -1,9 +1,11 @@
-const parseArguments = require('./cli-parser');
+const { parseArguments, printTable } = require('./cli-parser');
 
 const [n, algo] = parseArguments();
 
+search();
+
 function search() {
-  const firstTable = new Array(n).fill().map(x => new Array(n).fill(0))
+  const firstTable = new Array(n).fill().map((x) => new Array(n).fill(0));
   const tablesToVisit = [firstTable];
   const visitedTables = new Map();
 
@@ -21,9 +23,8 @@ function search() {
     }
 
     const hash = calculateTableHash(currentTable);
-    if (!visitedTables.has(hash))
-      visitedTables.set(hash, []);
-    
+    if (!visitedTables.has(hash)) visitedTables.set(hash, []);
+
     visitedTables.get(hash).push(currentTable);
 
     const newTables = generateChildrenTables(currentTable);
@@ -37,15 +38,17 @@ function search() {
 
 function isSolution(table) {
   for (let i = 0; i < n; i++) {
-    if (!isRowValid(table, i) || !isColumnValid(table, i))
-      return false;
+    if (!isRowValid(table, i) || !isColumnValid(table, i)) return false;
   }
 
   return true;
 }
 
 function isRowValid(table, row) {
-  if (Array.from(new Set(table[row])).length !== n || table[row].reduce((acc, curr) => acc + curr, 0) !== (n * (n + 1)) / 2)
+  if (
+    Array.from(new Set(table[row])).length !== n ||
+    table[row].reduce((acc, curr) => acc + curr, 0) !== (n * (n + 1)) / 2
+  )
     return false;
 
   return true;
@@ -60,15 +63,9 @@ function isColumnValid(table, column) {
     sum += row[column];
   }
 
-  if (Array.from(new Set(nums)).length !== n || sum !== (n * (n + 1)) / 2)
-    return false;
+  if (Array.from(new Set(nums)).length !== n || sum !== (n * (n + 1)) / 2) return false;
 
   return true;
-}
-
-function printTable(table) {
-  for (const row of table)
-    console.log(row.join(' '))
 }
 
 function generateChildrenTables(table) {
@@ -81,45 +78,37 @@ function generateChildrenTables(table) {
           x = JSON.parse(JSON.stringify(table));
           x[rowOfEmptyCell][columnOfEmptyCell] = index + 1;
           return x;
-        })
+        });
       }
-  
+
   return [];
 }
 
 function tableExistsInArray(table, arrayOfTables) {
   if (arrayOfTables instanceof Map) {
     const hash = calculateTableHash(table);
-    if (!arrayOfTables.has(hash))
-      return false;
-    
+    if (!arrayOfTables.has(hash)) return false;
+
     for (const otherTable of arrayOfTables.get(hash))
-      if (areTablesEqual(table, otherTable))
-        return true;
-  
+      if (areTablesEqual(table, otherTable)) return true;
+
     return false;
   }
 
-  for (const otherTable of arrayOfTables)
-    if (areTablesEqual(table, otherTable))
-      return true;
+  for (const otherTable of arrayOfTables) if (areTablesEqual(table, otherTable)) return true;
 
   return false;
 }
 
 function calculateTableHash(table) {
   let sum = 0;
-  table.forEach((x, i) => x.forEach((y, j) => sum += (y * (i + 100)) + j));
+  table.forEach((x, i) => x.forEach((y, j) => (sum += y * (i + 100) + j)));
   return sum;
 }
 
 function areTablesEqual(table1, table2) {
   for (let i = 0; i < n; i++)
-    for (let j = 0; j < n; j++)
-      if (table1[i][j] !== table2[i][j])
-        return false;
-  
+    for (let j = 0; j < n; j++) if (table1[i][j] !== table2[i][j]) return false;
+
   return true;
 }
-
-search();
