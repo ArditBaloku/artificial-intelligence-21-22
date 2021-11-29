@@ -8,13 +8,26 @@ Make sure to have node version 14.17.6 or later installed
 
 Navigate to the latin squares folder
 
-```cd latin-squares```
+`cd latin-squares`
 
 Run one of the algorithms with
 
-```node <name of file>.js <n>```
+`node <name of file>.js <n>`
 
 dfs-bfs has an extra argument, the algorithm to use
 
-```node dfs-bfs.js <n> <dfs | bfs>```
+`node dfs-bfs.js <n> <dfs | bfs>`
 
+## Social golfers
+
+Make sure to have node version 14.17.6 or later installed
+
+Navigate to the social golfers folder
+
+`cd social-golfers`
+
+Run one of the algorithms with
+
+`node <name of file>.js <n>`
+
+where n is the number of weeks you want to schedule
