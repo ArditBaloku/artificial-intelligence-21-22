@@ -5,7 +5,9 @@ function parseArguments() {
     process.exit();
   }
 
-  if (!process.argv[1].includes('dfs-bfs.js')) return n;
+  const interactive = process.argv.includes('--interactive') || process.argv.includes('-i');
+
+  if (!process.argv[1].includes('dfs-bfs.js')) return [n, interactive];
 
   const algo = process.argv[3];
   if (algo !== 'dfs' && algo !== 'bfs') {
@@ -13,14 +15,20 @@ function parseArguments() {
     process.exit();
   }
 
-  return [n, algo];
+  return [n, interactive, algo];
 }
 
 function printTable(table) {
   for (const row of table) console.log(row.join(' '));
 }
 
+function delay(seconds) {
+  const waitTill = new Date(new Date().getTime() + seconds * 1000);
+  while (waitTill > new Date()) {}
+}
+
 module.exports = {
   parseArguments,
   printTable,
+  delay,
 };

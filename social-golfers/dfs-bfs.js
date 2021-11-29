@@ -1,4 +1,4 @@
-const { printWeeks, parseArguments, getOtherGolfersInGroup } = require('./utils');
+const { printWeeks, parseArguments, getOtherGolfersInGroup, delay } = require('./utils');
 
 const [weeks, interactive, algo] = parseArguments();
 const numOfGolfers = 32;
@@ -20,10 +20,13 @@ function search() {
     const currentTable = algo === 'dfs' ? tablesToVisit.pop() : tablesToVisit.shift();
 
     if (interactive) {
+      delay(0.3);
       console.clear();
       printWeeks(currentTable, numOfGolfers, groupSize);
     }
+
     if (isSolution(currentTable)) {
+      console.clear();
       printWeeks(currentTable, numOfGolfers, groupSize);
       return;
     }

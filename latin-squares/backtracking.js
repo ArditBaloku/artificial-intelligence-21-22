@@ -1,9 +1,12 @@
-const { parseArguments, printTable } = require('./utils');
+const { parseArguments, printTable, delay } = require('./utils');
 
-const n = parseArguments();
+const [n, interactive] = parseArguments();
 const table = new Array(n).fill().map((x) => new Array(n).fill(0));
 
-if (placeNumber(0)) printTable(table);
+if (placeNumber(0)) {
+  console.clear();
+  printTable(table);
+}
 
 function placeNumber(index) {
   if (index === n * n) return true;
@@ -14,6 +17,12 @@ function placeNumber(index) {
     if (!canNumberBePlaced(row, column, i)) continue;
 
     table[row][column] = i;
+
+    if (interactive) {
+      delay(0.3);
+      console.clear();
+      printTable(table);
+    }
 
     if (placeNumber(index + 1)) return true;
 

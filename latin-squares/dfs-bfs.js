@@ -1,6 +1,6 @@
-const { parseArguments, printTable } = require('./utils');
+const { parseArguments, printTable, delay } = require('./utils');
 
-const [n, algo] = parseArguments();
+const [n, interactive, algo] = parseArguments();
 
 search();
 
@@ -17,7 +17,14 @@ function search() {
 
     const currentTable = algo === 'dfs' ? tablesToVisit.pop() : tablesToVisit.shift();
 
+    if (interactive) {
+      delay(0.3);
+      console.clear();
+      printTable(currentTable);
+    }
+
     if (isSolution(currentTable)) {
+      console.clear();
       printTable(currentTable);
       return;
     }

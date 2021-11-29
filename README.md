@@ -12,7 +12,7 @@ Navigate to the latin squares folder
 
 Run one of the algorithms with
 
-`node <name of file>.js <n>`
+`node <name of file>.js <n> <--interactive | -i>`
 
 dfs-bfs has an extra argument, the algorithm to use
 
@@ -28,6 +28,10 @@ Navigate to the social golfers folder
 
 Run one of the algorithms with
 
-`node <name of file>.js <n>`
+`node <name of file>.js <n> <--interactive | -i>`
 
 where n is the number of weeks you want to schedule
+
+dfs-bfs has an extra argument, the algorithm to use
+
+`node dfs-bfs.js <n> <dfs | bfs>`

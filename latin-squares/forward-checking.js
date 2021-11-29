@@ -1,12 +1,15 @@
-const { parseArguments, printTable } = require('./utils');
+const { parseArguments, printTable, delay } = require('./utils');
 
-const n = parseArguments();
+const [n, interactive] = parseArguments();
 const table = new Array(n).fill().map((x) => new Array(n).fill(0));
 const tableDomains = new Array(n)
   .fill()
   .map((x) => new Array(n).fill().map((y) => new Array(n).fill(1)));
 
-if (placeNumber(0)) printTable(table);
+if (placeNumber(0)) {
+  console.clear();
+  printTable(table);
+}
 
 function placeNumber(index) {
   if (index === n * n) return true;
@@ -17,6 +20,12 @@ function placeNumber(index) {
     if (tableDomains[row][column][i - 1] === 0) continue;
 
     table[row][column] = i;
+
+    if (interactive) {
+      delay(0.3);
+      console.clear();
+      printTable(table);
+    }
 
     const domainsRemoved = [];
     for (let j = 0; j < n; j++) {
