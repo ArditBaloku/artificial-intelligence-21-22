@@ -1,4 +1,4 @@
-const { parseArguments, printTable } = require('./cli-parser');
+const { parseArguments, printTable } = require('./utils');
 
 const [n, algo] = parseArguments();
 
